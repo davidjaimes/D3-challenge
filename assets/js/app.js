@@ -59,7 +59,34 @@ d3.csv("./assets/data/data.csv").then(function(data) {
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", "10")
     .attr("fill", "lightblue")
-    .attr("opacity", ".75");
+    .attr("opacity", "0.75");
+
+  // Create text state abbreviations in chart.
+  var textGroup = chartGroup.selectAll()
+    .data(data)
+    .enter()
+    .append("text")
+    .attr("x", d => xLinearScale(d.poverty))
+    .attr("y", d => yLinearScale(d.healthcare))
+    .attr("fill", "black")
+    .attr("font-size", "10px")
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "central")
+    .text(d => d.abbr);
+
+  // Create axes labels.
+  chartGroup.append("text")
+    .attr("transform", `translate(${width / 2 - margin.right}, ${height + margin.top + 30})`)
+    .attr("class", "axisText")
+    .text("In Poverty (%)");
+
+  chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left + margin.right)
+    .attr("x", 0 - (height / 2) - margin.bottom)
+    .attr("dy", "1em")
+    .attr("class", "axisText")
+    .text("Lacks Healthcare (%)");
 
 }).catch(function(error) {
   console.log(error);
