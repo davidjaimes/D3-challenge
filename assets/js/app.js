@@ -31,11 +31,11 @@ d3.csv("./assets/data/data.csv").then(function(data) {
 
   // Create x and y scale functions.
   var xLinearScale = d3.scaleLinear()
-    .domain([8, d3.max(data, d => d.poverty)])
+    .domain(d3.extent(data, d => d.poverty))
     .range([0, width]);
 
   var yLinearScale = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.healthcare)])
+    .domain(d3.extent(data, d => d.healthcare))
     .range([height, 0]);
 
   // Create axis functions.
@@ -58,8 +58,8 @@ d3.csv("./assets/data/data.csv").then(function(data) {
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", "10")
-    .attr("fill", "lightblue")
-    .attr("opacity", "0.75");
+    .attr("fill", "dodgerblue")
+    .attr("opacity", "0.5");
 
   // Create text state abbreviations in chart.
   var textGroup = chartGroup.selectAll()
