@@ -1,3 +1,4 @@
+// Layout parameters.
 var svgWidth = 960;
 var svgHeight = 500;
 
@@ -62,7 +63,7 @@ d3.csv("./assets/data/data.csv").then(function(data) {
     .attr("opacity", "0.5");
 
   // Create text state abbreviations in chart.
-  var textGroup = chartGroup.selectAll()
+  var circlesGroup = chartGroup.selectAll()
     .data(data)
     .enter()
     .append("text")
@@ -73,6 +74,21 @@ d3.csv("./assets/data/data.csv").then(function(data) {
     .attr("text-anchor", "middle")
     .attr("alignment-baseline", "central")
     .text(d => d.abbr);
+
+  // Initialize tool tip.
+  var toolTip = d3.tip()
+    .attr("class", "tooltip")
+    .offset([80, -60])
+    .html(function (d) {
+      return (`${d.state}<br>Poverty: ${d.poverty}%<br>Lacks Healthcare: ${d.healthcare}% `);
+    });
+
+  chartGroup.call(toolTip);
+  circlesGroup.on("mouseover", function (thedata) {
+    toolTip.show(thedata, this);
+  }).on("mouseout", function (thedata) {
+      toolTip.hide(thedata);
+    });
 
   // Create axes labels.
   chartGroup.append("text")
